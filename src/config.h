@@ -27,10 +27,7 @@ limitations under the License.
 
 
 #define SOS_BOARD_SYSTEM_CLOCK 216000000
-#define SOS_BOARD_SYSTEM_MEMORY_SIZE (8192*3)
-#define SOS_BOARD_ID "-LABUlXF_3U2nEosAKsD"
-#define SOS_BOARD_VERSION "0.12"
-#define SOS_BOARD_NAME "STM32F723E-DISCO"
+#define SOS_BOARD_SYSTEM_MEMORY_SIZE (32*1024)
 
 #define SOS_BOARD_USB_RX_BUFFER_SIZE 512
 #define SOS_BOARD_STDIO_BUFFER_SIZE 512
@@ -66,15 +63,15 @@ limitations under the License.
 
 //--------------------------------------------Disco Definitions-------------------------------------------------
 
-#define DISCO_DEBUG_UART_PORT 5
-#define DISCO_DEBUG_UART_RX_PORT 2
-#define DISCO_DEBUG_UART_RX_PIN 7
-#define DISCO_DEBUG_UART_TX_PORT 2
-#define DISCO_DEBUG_UART_TX_PIN 6
-#define DISCO_LED_PORT 0
-#define DISCO_LED_PIN 5
-#define DISCO_BOOT_HARDWARE_REQUEST_PORT 0
-#define DISCO_BOOT_HARDWARE_REQUEST_PIN 0
+#define DISCO_DEBUG_UART_PORT 0
+#define DISCO_DEBUG_UART_RX_PORT 0xff
+#define DISCO_DEBUG_UART_RX_PIN 0xff
+#define DISCO_DEBUG_UART_TX_PORT 0
+#define DISCO_DEBUG_UART_TX_PIN 9
+#define DISCO_LED_PORT 10 //backlight?
+#define DISCO_LED_PIN 3
+#define DISCO_BOOT_HARDWARE_REQUEST_PORT 8 //PI11 is the user button
+#define DISCO_BOOT_HARDWARE_REQUEST_PIN 11
 
 //--------------------------------------------Symbols-------------------------------------------------
 
@@ -139,10 +136,10 @@ limitations under the License.
 #define SOS_BOARD_USART3_RX_PORT 3 //PD9
 #define SOS_BOARD_USART3_RX_PIN 9
 
-#define SOS_BOARD_USART6_TX_PORT 6 //PG5
-#define SOS_BOARD_USART6_TX_PIN 9
-#define SOS_BOARD_USART6_RX_PORT 6 //PG14
-#define SOS_BOARD_USART6_RX_PIN 14
+#define SOS_BOARD_USART6_TX_PORT 2 //PC6
+#define SOS_BOARD_USART6_TX_PIN 6
+#define SOS_BOARD_USART6_RX_PORT 2 //PC7
+#define SOS_BOARD_USART6_RX_PIN 7
 
 #define SOS_BOARD_I2C1_SDA_PORT 1 //PB9
 #define SOS_BOARD_I2C1_SDA_PIN 9

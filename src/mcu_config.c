@@ -56,7 +56,7 @@ const mcu_board_config_t mcu_board_config = {
         .o_flags = UART_FLAG_SET_LINE_CODING_DEFAULT,
         .width = 8
     },
-    .o_flags = MCU_BOARD_CONFIG_FLAG_LED_ACTIVE_HIGH,
+	 .o_flags = 0,
     .event_handler = SOS_BOARD_EVENT_HANDLER,
     .led = {DISCO_LED_PORT, DISCO_LED_PIN},
     .arch_config = &stm32_config,

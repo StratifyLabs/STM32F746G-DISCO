@@ -6,7 +6,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,13 +33,13 @@ const struct __sFILE_fake __sf_fake_stderr;
 
 extern u32 _flash_start; 
 const bootloader_board_config_t boot_board_config = { 
-    .sw_req_loc = 0x20004000, 
-    .sw_req_value = 0x55AA55AA, 
-    .program_start_addr = 0x40000 + (u32)&_flash_start, 
-    .hw_req = {DISCO_BOOT_HARDWARE_REQUEST_PORT, DISCO_BOOT_HARDWARE_REQUEST_PIN}, 
-    .o_flags = BOOT_BOARD_CONFIG_FLAG_HW_REQ_ACTIVE_HIGH, 
-    .link_transport_driver = &link_transport, 
-    .id = __HARDWARE_ID 
+	.sw_req_loc = 0x20004000,
+	.sw_req_value = 0x55AA55AA,
+	.program_start_addr = __KERNEL_START_ADDRESS,
+	.hw_req = {DISCO_BOOT_HARDWARE_REQUEST_PORT, DISCO_BOOT_HARDWARE_REQUEST_PIN},
+	.o_flags = BOOT_BOARD_CONFIG_FLAG_HW_REQ_ACTIVE_HIGH,
+	.link_transport_driver = &link_transport,
+	.id = __HARDWARE_ID
 };
 
 extern void boot_main();
@@ -49,9 +49,13 @@ extern void SystemClock_Config();
 void _main(){ boot_main(); }
 
 void board_event_handler(int event, void * args){
-    switch(event){
-    case MCU_BOARD_CONFIG_EVENT_ROOT_INITIALIZE_CLOCK:
-        SystemClock_Config();
-        break;
-    }
+	switch(event){
+		case BOOT_EVENT_START:
+			break;
+		case BOOT_EVENT_INIT:
+			break;
+		case MCU_BOARD_CONFIG_EVENT_ROOT_INITIALIZE_CLOCK:
+			SystemClock_Config();
+			break;
+	}
 }
