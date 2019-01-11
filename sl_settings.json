@@ -1,0 +1,14 @@
+{
+   "description": "This BSP can be used to run Stratify OS on the STM32F746G-DISCO board.",
+   "github": "https://github.com/StratifyLabs/STM32F746G-DISCO",
+   "name": "STM32F746G-DISCO",
+   "permissions": "public",
+   "publisher": "Stratify Labs, Inc",
+   "tags": "stm32,arm,cortex-m7",
+   "type": "os",
+   "uid": "9cQyOTk3fZXOuMtPyf5j9X4H4b83",
+   "version": "0.10",
+   "timestamp": 1545023085,
+   "documentId": "",
+   "hardwareId": "0x00000024"
+}
