@@ -205,6 +205,113 @@ const stm32_spi_dma_config_t spi2_dma_config = {
 //I2S3
 //SAI1A/B
 
+#if 0
+const sdram_config_t sdram_config = {
+	.attr = {
+		.o_flags = SDRAM_FLAG_SET_INTERFACE |
+		SDRAM_FLAG_IS_READ_BURST |
+		SDRAM_FLAG_IS_CLOCK_PERIOD_2 |
+		SDRAM_FLAG_IS_CAS_LATENCY_3,
+		.column_bits = 8,
+		.row_bits = 12,
+		.memory_data_width = 16,
+		.bank_count = 4,
+		.pin_assignment = {
+			.address[0] = {5, 0},
+			.address[1] = {5, 1},
+			.address[2] = {5, 2},
+			.address[3] = {5, 3},
+			.address[4] = {5, 4},
+			.address[5] = {5, 5},
+			.address[6] = {5, 12},
+			.address[7] = {5, 13},
+			.address[8] = {5, 14},
+			.address[9] = {4, 15},
+			.address[10] = {6, 0},
+			.address[11] = {6, 1},
+			.address[12] = {0xff, 0xff},
+			.address[13] = {0xff, 0xff},
+			.address[14] = {6, 4}, //FMC_BA0
+			.address[15] = {6, 5}, //FMC_BA1
+			.address[16] = {0xff, 0xff},
+			.address[17] = {0xff, 0xff},
+			.address[18] = {0xff, 0xff},
+			.address[19] = {0xff, 0xff},
+			.address[20] = {0xff, 0xff},
+			.address[21] = {0xff, 0xff},
+			.address[22] = {0xff, 0xff},
+			.address[23] = {0xff, 0xff},
+			.address[24] = {0xff, 0xff},
+			.address[25] = {0xff, 0xff},
+			.address[26] = {0xff, 0xff},
+			.address[27] = {0xff, 0xff},
+			.address[28] = {0xff, 0xff},
+			.address[29] = {0xff, 0xff},
+			.address[30] = {0xff, 0xff},
+			.address[31] = {0xff, 0xff},
+			.data_bus[0] = {3, 14},
+			.data_bus[1] = {3, 15},
+			.data_bus[2] = {3, 0},
+			.data_bus[3] = {3, 1},
+			.data_bus[4] = {3, 7},
+			.data_bus[5] = {4, 8},
+			.data_bus[6] = {4, 9},
+			.data_bus[7] = {4, 10},
+			.data_bus[8] = {4, 11},
+			.data_bus[9] = {4, 12},
+			.data_bus[10] = {4, 13},
+			.data_bus[11] = {4, 14},
+			.data_bus[12] = {4, 15},
+			.data_bus[13] = {3, 8},
+			.data_bus[14] = {3, 9},
+			.data_bus[15] = {3, 10},
+			.data_bus[16] = {0xff, 0xff},
+			.data_bus[17] = {0xff, 0xff},
+			.data_bus[18] = {0xff, 0xff},
+			.data_bus[19] = {0xff, 0xff},
+			.data_bus[20] = {0xff, 0xff},
+			.data_bus[21] = {0xff, 0xff},
+			.data_bus[22] = {0xff, 0xff},
+			.data_bus[23] = {0xff, 0xff},
+			.data_bus[24] = {0xff, 0xff},
+			.data_bus[25] = {0xff, 0xff},
+			.data_bus[26] = {0xff, 0xff},
+			.data_bus[27] = {0xff, 0xff},
+			.data_bus[28] = {0xff, 0xff},
+			.data_bus[29] = {0xff, 0xff},
+			.data_bus[30] = {0xff, 0xff},
+			.data_bus[31] = {0xff, 0xff},
+			.data_mask[0] = {4, 0}, //FMC_NBL0
+			.data_mask[1] = {4, 1}, //FMC_NBL1
+			.data_mask[2] = {0xff, 0xff},
+			.data_mask[3] = {0xff, 0xff},
+			.clock = {6, 8},
+			.write_enable = {7, 5},
+			.clock_enable[0] = {2, 3},
+			.clock_enable[1] = {0xff, 0xff},
+			.clock_enable[2] = {0xff, 0xff},
+			.clock_enable[3] = {0xff, 0xff},
+			.chip_enable[0] = {7, 3},
+			.chip_enable[1] = {0xff, 0xff},
+			.chip_enable[2] = {0xff, 0xff},
+			.chip_enable[3] = {0xff, 0xff},
+			.row_address_strobe = {5, 11},
+			.colum_address_strobe = {6, 15},
+			.resd = {0xff, 0xff},
+		}
+	},
+	.base_address = 0xC0000000,
+	.size = 64*1024/8, //64Mbit SDRAM
+	.load_to_active_delay = 2,
+	.exit_self_refresh_delay = 7,
+	.self_refresh_time = 4,
+	.row_cycle_delay = 7,
+	.write_recovery_time = 3,
+	.rp_delay = 2,
+	.rcd_delay = 2
+};
+#endif
+
 
 FIFO_DECLARE_CONFIG_STATE(stdio_in, SOS_BOARD_STDIO_BUFFER_SIZE);
 FIFO_DECLARE_CONFIG_STATE(stdio_out, SOS_BOARD_STDIO_BUFFER_SIZE);
@@ -249,6 +356,8 @@ const devfs_device_t devfs_list[] = {
 	DEVFS_DEVICE("spi2", mcu_spi, 2, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),
 	DEVFS_DEVICE("spi3", mcu_spi, 3, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),
 
+	//DEVFS_DEVICE("sdram0", mcu_sdram, 0, &sdram_config, 0, 0666, SOS_USER_ROOT, S_IFCHR),
+
 	DEVFS_DEVICE("tmr0", mcu_tmr, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR), //TIM1
 	DEVFS_DEVICE("tmr1", mcu_tmr, 1, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR), //TIM2
 	DEVFS_DEVICE("tmr2", mcu_tmr, 2, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),
@@ -282,11 +391,57 @@ const devfs_device_t devfs_list[] = {
  */
 
 const devfs_device_t mem0 = DEVFS_DEVICE("mem0", mcu_mem, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFBLK);
+
 const sysfs_t sysfs_list[] = {
 	APPFS_MOUNT("/app", &mem0, SYSFS_ALL_ACCESS), //the folder for ram/flash applications
 	DEVFS_MOUNT("/dev", devfs_list, SYSFS_READONLY_ACCESS), //the list of devices
 	SYSFS_MOUNT("/", sysfs_list, SYSFS_READONLY_ACCESS), //the root filesystem (must be last)
 	SYSFS_TERMINATOR
 };
+
+#if 0
+
+
+  PE1   ------> FMC_NBL1
+  PE0   ------> FMC_NBL0
+  PG15   ------> FMC_SDNCAS
+  PD0   ------> FMC_D2
+  PD1   ------> FMC_D3
+  PF0   ------> FMC_A0
+  PF1   ------> FMC_A1
+  PF2   ------> FMC_A2
+  PF3   ------> FMC_A3
+  PG8   ------> FMC_SDCLK
+  PF4   ------> FMC_A4
+  PH5   ------> FMC_SDNWE
+  PH3   ------> FMC_SDNE0
+  PF5   ------> FMC_A5
+  PD15   ------> FMC_D1
+  PD10   ------> FMC_D15
+  PC3   ------> FMC_SDCKE0
+  PD14   ------> FMC_D0
+  PD9   ------> FMC_D14
+  PD8   ------> FMC_D13
+  PF12   ------> FMC_A6
+  PG1   ------> FMC_A11
+  PF15   ------> FMC_A9
+  PF13   ------> FMC_A7
+  PG0   ------> FMC_A10
+  PE8   ------> FMC_D5
+  PG5   ------> FMC_BA1
+  PG4   ------> FMC_BA0
+  PF14   ------> FMC_A8
+  PF11   ------> FMC_SDNRAS
+  PE9   ------> FMC_D6
+  PE11   ------> FMC_D8
+  PE14   ------> FMC_D11
+  PE7   ------> FMC_D4
+  PE10   ------> FMC_D7
+  PE12   ------> FMC_D9
+  PE15   ------> FMC_D12
+  PE13   ------> FMC_D10
+
+
+#endif
 
 

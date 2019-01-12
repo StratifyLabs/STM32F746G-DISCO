@@ -21,6 +21,7 @@ limitations under the License.
 #include <sos/sos.h>
 #include <mcu/debug.h>
 #include <cortexm/task.h>
+#include <cortexm/mpu.h>
 #include <sos/link/types.h>
 #include "board_config.h"
 
@@ -36,7 +37,7 @@ const ffifo_config_t board_trace_config = {
 ffifo_state_t board_trace_state;
 
 extern void SystemClock_Config();
-
+extern void configure_external_memory();
 
 void board_trace_event(void * event){
 	link_trace_event_header_t * header = event;
@@ -72,6 +73,10 @@ void board_event_handler(int event, void * args){
 
 		case MCU_BOARD_CONFIG_EVENT_ROOT_INITIALIZE_CLOCK:
 			SystemClock_Config();
+
+			configure_external_memory();
+
+
 			break;
 
 		case MCU_BOARD_CONFIG_EVENT_START_INIT:

@@ -64,9 +64,9 @@ limitations under the License.
 //--------------------------------------------Disco Definitions-------------------------------------------------
 
 #define DISCO_DEBUG_UART_PORT 0
-#define DISCO_DEBUG_UART_RX_PORT 0xff
-#define DISCO_DEBUG_UART_RX_PIN 0xff
-#define DISCO_DEBUG_UART_TX_PORT 0
+#define DISCO_DEBUG_UART_RX_PORT 1 //PB7
+#define DISCO_DEBUG_UART_RX_PIN 7
+#define DISCO_DEBUG_UART_TX_PORT 0 //PA9
 #define DISCO_DEBUG_UART_TX_PIN 9
 #define DISCO_LED_PORT 10 //backlight?
 #define DISCO_LED_PIN 3

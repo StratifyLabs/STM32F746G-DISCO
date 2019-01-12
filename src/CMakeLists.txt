@@ -9,6 +9,7 @@ set(SOURCES
   ${SOURCES_PREFIX}/mcu_config.c
   ${SOURCES_PREFIX}/sos_config.c
   ${SOURCES_PREFIX}/board_symbols.c
-  ${SOURCES_PREFIX}/SystemClock_Config.c
-  ${SOURCES_PREFIX}/kernel_request.c
+	${SOURCES_PREFIX}/SystemClock_Config.c
+	${SOURCES_PREFIX}/SystemExternalMemory_Config.c
+	${SOURCES_PREFIX}/kernel_request.c
   PARENT_SCOPE)
