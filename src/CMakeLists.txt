@@ -11,5 +11,6 @@ set(SOURCES
   ${SOURCES_PREFIX}/board_symbols.c
 	${SOURCES_PREFIX}/SystemClock_Config.c
 	${SOURCES_PREFIX}/SystemExternalMemory_Config.c
+	${SOURCES_PREFIX}/SystemLtdc_Config.c
 	${SOURCES_PREFIX}/kernel_request.c
   PARENT_SCOPE)

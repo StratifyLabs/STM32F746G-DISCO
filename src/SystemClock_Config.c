@@ -49,6 +49,7 @@ void SystemClock_Config(){
 	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_7) != HAL_OK){
 		while(1);
 	}
+
 	PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_SPDIFRX|RCC_PERIPHCLK_LTDC
 			|RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_USART1
 			|RCC_PERIPHCLK_USART6|RCC_PERIPHCLK_SAI2
@@ -58,13 +59,13 @@ void SystemClock_Config(){
 	PeriphClkInitStruct.PLLI2S.PLLI2SP = RCC_PLLP_DIV2;
 	PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
 	PeriphClkInitStruct.PLLI2S.PLLI2SQ = 2;
-	PeriphClkInitStruct.PLLSAI.PLLSAIN = 100;
-	PeriphClkInitStruct.PLLSAI.PLLSAIR = 2;
+	PeriphClkInitStruct.PLLSAI.PLLSAIN = 192;
+	PeriphClkInitStruct.PLLSAI.PLLSAIR = 5;
 	PeriphClkInitStruct.PLLSAI.PLLSAIQ = 2;
 	PeriphClkInitStruct.PLLSAI.PLLSAIP = RCC_PLLSAIP_DIV2;
 	PeriphClkInitStruct.PLLI2SDivQ = 1;
 	PeriphClkInitStruct.PLLSAIDivQ = 1;
-	PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_2;
+	PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_4;
 	PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
 	PeriphClkInitStruct.Sai2ClockSelection = RCC_SAI2CLKSOURCE_PLLSAI;
 	PeriphClkInitStruct.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;

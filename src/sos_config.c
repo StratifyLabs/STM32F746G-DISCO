@@ -32,9 +32,12 @@ limitations under the License.
 #include <sos/link.h>
 #include <sos/fs/sysfs.h>
 #include <sos/fs/appfs.h>
+#include <sos/fs/assetfs.h>
 #include <sos/fs/devfs.h>
 #include <sos/fs/sffs.h>
 #include <sos/sos.h>
+#include <sapi/sys/requests.h>
+#include <sapi/sg.h>
 
 #include "config.h"
 #include "sl_config.h"
@@ -210,7 +213,7 @@ const emc_config_t emc_sdram_config = {
 		.o_flags = 0
 	},
 	.base_address = 0xC0000000,
-	.size = 64*1024/8, //64Mbit SDRAM
+	.size = 64*1024*1024/8, //64Mbit SDRAM
 	.freq = 100000000,
 	.data_bus_width = 16
 };
@@ -259,7 +262,7 @@ const devfs_device_t devfs_list[] = {
 	DEVFS_DEVICE("spi2", mcu_spi, 2, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),
 	DEVFS_DEVICE("spi3", mcu_spi, 3, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),
 
-	DEVFS_DEVICE("emc0", mcu_emc_sdram, 0, &emc_sdram_config, 0, 0666, SOS_USER_ROOT, S_IFCHR),
+	DEVFS_DEVICE("emc0", mcu_emc_sdram, 0, &emc_sdram_config, 0, 0666, SOS_USER_ROOT, S_IFBLK),
 
 	DEVFS_DEVICE("tmr0", mcu_tmr, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR), //TIM1
 	DEVFS_DEVICE("tmr1", mcu_tmr, 1, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR), //TIM2
@@ -293,58 +296,29 @@ const devfs_device_t devfs_list[] = {
  *
  */
 
+ASSETFS_FILE(icons, "../../../SalBenFW/salben_data/icons.svic");
+ASSETFS_FILE(robotoc_r_20, "../../../SalBenFW/salben_data/robotocondensed-r-20.sbf");
+ASSETFS_FILE(coumadin, "/Users/tgil/Desktop/coumadin.bmp");
+
+const assetfs_config_t asset_config = {
+	.count = 3,
+	.entries = {
+		ASSETFS_ENTRY("icons.svic", icons, 0666),
+		ASSETFS_ENTRY("robotoc-r-20.sbf", robotoc_r_20, 0666),
+		ASSETFS_ENTRY("coumadin.bmp", coumadin, 0666),
+
+	}
+};
+
+
 const devfs_device_t mem0 = DEVFS_DEVICE("mem0", mcu_mem, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFBLK);
 
 const sysfs_t sysfs_list[] = {
 	APPFS_MOUNT("/app", &mem0, SYSFS_ALL_ACCESS), //the folder for ram/flash applications
 	DEVFS_MOUNT("/dev", devfs_list, SYSFS_READONLY_ACCESS), //the list of devices
+	ASSETFS_MOUNT("/assets", &asset_config, SYSFS_READONLY_ACCESS), //the list of devices
 	SYSFS_MOUNT("/", sysfs_list, SYSFS_READONLY_ACCESS), //the root filesystem (must be last)
 	SYSFS_TERMINATOR
 };
-
-#if 0
-
-
-  PE1   ------> FMC_NBL1
-  PE0   ------> FMC_NBL0
-  PG15   ------> FMC_SDNCAS
-  PD0   ------> FMC_D2
-  PD1   ------> FMC_D3
-  PF0   ------> FMC_A0
-  PF1   ------> FMC_A1
-  PF2   ------> FMC_A2
-  PF3   ------> FMC_A3
-  PG8   ------> FMC_SDCLK
-  PF4   ------> FMC_A4
-  PH5   ------> FMC_SDNWE
-  PH3   ------> FMC_SDNE0
-  PF5   ------> FMC_A5
-  PD15   ------> FMC_D1
-  PD10   ------> FMC_D15
-  PC3   ------> FMC_SDCKE0
-  PD14   ------> FMC_D0
-  PD9   ------> FMC_D14
-  PD8   ------> FMC_D13
-  PF12   ------> FMC_A6
-  PG1   ------> FMC_A11
-  PF15   ------> FMC_A9
-  PF13   ------> FMC_A7
-  PG0   ------> FMC_A10
-  PE8   ------> FMC_D5
-  PG5   ------> FMC_BA1
-  PG4   ------> FMC_BA0
-  PF14   ------> FMC_A8
-  PF11   ------> FMC_SDNRAS
-  PE9   ------> FMC_D6
-  PE11   ------> FMC_D8
-  PE14   ------> FMC_D11
-  PE7   ------> FMC_D4
-  PE10   ------> FMC_D7
-  PE12   ------> FMC_D9
-  PE15   ------> FMC_D12
-  PE13   ------> FMC_D10
-
-
-#endif
 
 
