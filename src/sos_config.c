@@ -296,27 +296,11 @@ const devfs_device_t devfs_list[] = {
  *
  */
 
-ASSETFS_FILE(icons, "../../../SalBenFW/salben_data/icons.svic");
-ASSETFS_FILE(robotoc_r_20, "../../../SalBenFW/salben_data/robotocondensed-r-20.sbf");
-ASSETFS_FILE(coumadin, "/Users/tgil/Desktop/coumadin.bmp");
-
-const assetfs_config_t asset_config = {
-	.count = 3,
-	.entries = {
-		ASSETFS_ENTRY("icons.svic", icons, 0666),
-		ASSETFS_ENTRY("robotoc-r-20.sbf", robotoc_r_20, 0666),
-		ASSETFS_ENTRY("coumadin.bmp", coumadin, 0666),
-
-	}
-};
-
-
 const devfs_device_t mem0 = DEVFS_DEVICE("mem0", mcu_mem, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFBLK);
 
 const sysfs_t sysfs_list[] = {
 	APPFS_MOUNT("/app", &mem0, SYSFS_ALL_ACCESS), //the folder for ram/flash applications
 	DEVFS_MOUNT("/dev", devfs_list, SYSFS_READONLY_ACCESS), //the list of devices
-	ASSETFS_MOUNT("/assets", &asset_config, SYSFS_READONLY_ACCESS), //the list of devices
 	SYSFS_MOUNT("/", sysfs_list, SYSFS_READONLY_ACCESS), //the root filesystem (must be last)
 	SYSFS_TERMINATOR
 };
