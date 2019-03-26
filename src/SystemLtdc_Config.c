@@ -1,6 +1,9 @@
 
 #include <mcu/arch.h>
 #include <mcu/arch/stm32/stm32f7xx/stm32f7xx_hal.h>
+#include <string.h>
+
+#include "display_device.h"
 
 #define  RK043FN48H_WIDTH ((uint16_t)480)
 #define  RK043FN48H_HEIGHT ((uint16_t)272)
@@ -24,10 +27,14 @@
 #define LCD_BL_CTRL_GPIO_CLK_ENABLE()    __HAL_RCC_GPIOK_CLK_ENABLE()
 #define LCD_BL_CTRL_GPIO_CLK_DISABLE()   __HAL_RCC_GPIOK_CLK_DISABLE()
 
+DMA2D_HandleTypeDef hdma2d;
+static LTDC_HandleTypeDef hltdc_F;
+
 void LCD_Config(void)
 {
-	static LTDC_HandleTypeDef hltdc_F;
 	LTDC_LayerCfgTypeDef      pLayerCfg;
+
+	memset((void*)DISPLAY_MEMORY_RAW, 0x00, (RK043FN48H_WIDTH*RK043FN48H_HEIGHT*4));
 
 	/* LTDC Initialization -------------------------------------------------------*/
 
@@ -53,9 +60,9 @@ void LCD_Config(void)
 	hltdc_F.Init.TotalWidth = (RK043FN48H_WIDTH + RK043FN48H_HSYNC + RK043FN48H_HBP + RK043FN48H_HFP - 1);
 
 	/* Configure R,G,B component values for LCD background color : all black background */
-	hltdc_F.Init.Backcolor.Blue = 0;
-	hltdc_F.Init.Backcolor.Green = 0;
-	hltdc_F.Init.Backcolor.Red = 0;
+	hltdc_F.Init.Backcolor.Blue = 0xff;
+	hltdc_F.Init.Backcolor.Green = 0xff;
+	hltdc_F.Init.Backcolor.Red = 0xff;
 
 	hltdc_F.Instance = LTDC;
 
@@ -73,16 +80,16 @@ void LCD_Config(void)
 	pLayerCfg.WindowY1 = 272;
 
 	/* Pixel Format configuration*/
-	pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_RGB888;
+	pLayerCfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
 
 	/* Start Address configuration : frame buffer is located at SDRAM memory */
-	pLayerCfg.FBStartAdress = 0xC0000000;
+	pLayerCfg.FBStartAdress = DISPLAY_MEMORY_RAW;
 
 	/* Alpha constant (255 == totally opaque) */
 	pLayerCfg.Alpha = 255;
 
 	/* Default Color configuration (configure A,R,G,B component values) : no background color */
-	pLayerCfg.Alpha0 = 0; /* fully transparent */
+	pLayerCfg.Alpha0 = 255; /* fully transparent */
 	pLayerCfg.Backcolor.Blue = 0;
 	pLayerCfg.Backcolor.Green = 0;
 	pLayerCfg.Backcolor.Red = 0;
@@ -109,6 +116,22 @@ void LCD_Config(void)
 		while(1){
 
 		}
+	}
+
+	hdma2d.Instance = DMA2D;
+	hdma2d.Init.Mode = DMA2D_M2M;
+	hdma2d.Init.ColorMode = DMA2D_OUTPUT_ARGB8888;
+	hdma2d.Init.OutputOffset = 0;
+	hdma2d.LayerCfg[1].InputOffset = 0;
+	hdma2d.LayerCfg[1].InputColorMode = DMA2D_INPUT_ARGB8888;
+	hdma2d.LayerCfg[1].AlphaMode = DMA2D_NO_MODIF_ALPHA;
+	hdma2d.LayerCfg[1].InputAlpha = 0;
+	if (HAL_DMA2D_Init(&hdma2d) != HAL_OK){
+	  ;
+	}
+
+	if (HAL_DMA2D_ConfigLayer(&hdma2d, 1) != HAL_OK){
+	  ;
 	}
 }
 
@@ -184,6 +207,46 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef *hltdc)
 
 	/* Assert backlight LCD_BL_CTRL pin */
 	HAL_GPIO_WritePin(LCD_BL_CTRL_GPIO_PORT, LCD_BL_CTRL_PIN, GPIO_PIN_SET);
+
+}
+
+void HAL_DMA2D_MspInit(DMA2D_HandleTypeDef* hdma2d)
+{
+
+  if(hdma2d->Instance==DMA2D)
+  {
+  /* USER CODE BEGIN DMA2D_MspInit 0 */
+
+  /* USER CODE END DMA2D_MspInit 0 */
+	 /* Peripheral clock enable */
+	 __HAL_RCC_DMA2D_CLK_ENABLE();
+	 /* DMA2D interrupt Init */
+	 HAL_NVIC_SetPriority(DMA2D_IRQn, 0, 0);
+	 HAL_NVIC_EnableIRQ(DMA2D_IRQn);
+  /* USER CODE BEGIN DMA2D_MspInit 1 */
+
+  /* USER CODE END DMA2D_MspInit 1 */
+  }
+
+}
+
+void HAL_DMA2D_MspDeInit(DMA2D_HandleTypeDef* hdma2d)
+{
+
+  if(hdma2d->Instance==DMA2D)
+  {
+  /* USER CODE BEGIN DMA2D_MspDeInit 0 */
+
+  /* USER CODE END DMA2D_MspDeInit 0 */
+	 /* Peripheral clock disable */
+	 __HAL_RCC_DMA2D_CLK_DISABLE();
+
+	 /* DMA2D interrupt DeInit */
+	 HAL_NVIC_DisableIRQ(DMA2D_IRQn);
+  /* USER CODE BEGIN DMA2D_MspDeInit 1 */
+
+  /* USER CODE END DMA2D_MspDeInit 1 */
+  }
 
 }
 

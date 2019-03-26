@@ -7,8 +7,10 @@ set(SOURCES
   ${SOURCES_PREFIX}/link_config.h
   ${SOURCES_PREFIX}/sl_config.h
   ${SOURCES_PREFIX}/mcu_config.c
-  ${SOURCES_PREFIX}/sos_config.c
-  ${SOURCES_PREFIX}/board_symbols.c
+	${SOURCES_PREFIX}/sos_config.c
+	${SOURCES_PREFIX}/display_device.c
+	${SOURCES_PREFIX}/display_device.h
+	${SOURCES_PREFIX}/board_symbols.c
 	${SOURCES_PREFIX}/SystemClock_Config.c
 	${SOURCES_PREFIX}/SystemExternalMemory_Config.c
 	${SOURCES_PREFIX}/SystemLtdc_Config.c

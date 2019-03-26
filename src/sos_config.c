@@ -42,6 +42,7 @@ limitations under the License.
 #include "config.h"
 #include "sl_config.h"
 #include "link_config.h"
+#include "display_device.h"
 
 #if !defined SOS_BOARD_FLAGS
 #define SOS_BOARD_FLAGS 0
@@ -262,6 +263,7 @@ const devfs_device_t devfs_list[] = {
 	DEVFS_DEVICE("spi2", mcu_spi, 2, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),
 	DEVFS_DEVICE("spi3", mcu_spi, 3, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),
 
+	DEVFS_DEVICE("display0", display_device, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFBLK),
 	DEVFS_DEVICE("emc0", mcu_emc_sdram, 0, &emc_sdram_config, 0, 0666, SOS_USER_ROOT, S_IFBLK),
 
 	DEVFS_DEVICE("tmr0", mcu_tmr, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR), //TIM1
@@ -295,6 +297,7 @@ const devfs_device_t devfs_list[] = {
  * are provided by the board.
  *
  */
+
 
 const devfs_device_t mem0 = DEVFS_DEVICE("mem0", mcu_mem, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFBLK);
 

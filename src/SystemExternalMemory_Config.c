@@ -1,5 +1,6 @@
 
 #include <mcu/arch.h>
+#include <mcu/emc.h>
 #include <mcu/arch/stm32/stm32f7xx/stm32f7xx_hal.h>
 
 #define SDRAM_BANK_ADDR                 ((uint32_t)0xC0000000)
@@ -25,6 +26,7 @@
 #define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE     ((uint16_t)0x0200)
 
 SDRAM_HandleTypeDef hsdram MCU_SYS_MEM;
+extern const emc_config_t emc_sdram_config;
 
 static void BSP_SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram, FMC_SDRAM_CommandTypeDef *Command)
 {
@@ -101,7 +103,7 @@ void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef *hsdram)
 	/*##-2- Configure peripheral GPIO ##########################################*/
 	GPIO_Init_Structure.Mode      = GPIO_MODE_AF_PP;
 	GPIO_Init_Structure.Pull      = GPIO_PULLUP;
-	GPIO_Init_Structure.Speed     = GPIO_SPEED_FAST;
+	GPIO_Init_Structure.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
 	GPIO_Init_Structure.Alternate = GPIO_AF12_FMC;
 
 
@@ -198,5 +200,13 @@ void configure_external_memory(){
 
 	/* Program the SDRAM external device */
 	BSP_SDRAM_Initialization_Sequence(&hsdram, &command);
+
+	devfs_handle_t emc_handle;
+	emc_handle.port = 0;
+	emc_handle.config = &emc_sdram_config;
+	emc_handle.state = 0;
+
+	//this will keep the SDRAM running if the application opens an instance of the device and then closes it
+	mcu_emc_sdram_open(&emc_handle);
 }
 

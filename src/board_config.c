@@ -40,7 +40,6 @@ ffifo_state_t board_trace_state;
 extern void SystemClock_Config();
 extern void configure_external_memory();
 extern void LCD_Config();
-extern const emc_config_t emc_sdram_config;
 
 void board_trace_event(void * event){
 	link_trace_event_header_t * header = event;
@@ -57,7 +56,6 @@ void board_trace_event(void * event){
 }
 
 void board_event_handler(int event, void * args){
-	devfs_handle_t emc_handle;
 	switch(event){
 		case MCU_BOARD_CONFIG_EVENT_ROOT_TASK_INIT:
 			break;
@@ -80,14 +78,7 @@ void board_event_handler(int event, void * args){
 
 			configure_external_memory();
 
-			emc_handle.port = 0;
-			emc_handle.config = &emc_sdram_config;
-			emc_handle.state = 0;
-
-			//this will keep the SDRAM running if the application opens an instance of the device and then closes it
-			mcu_emc_sdram_open(&emc_handle);
-
-			memset((void*)0xC0000000, 0xC0, (480*272*2));
+			//this zeros out the active video buffer
 
 			LCD_Config();
 			break;
