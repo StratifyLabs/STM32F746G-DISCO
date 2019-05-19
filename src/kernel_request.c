@@ -31,11 +31,6 @@ int kernel_request(int req, void * arg){
 
 const void * kernel_request_api(u32 request){
 	switch(request){
-		case ARM_DSP_Q7_API_REQUEST: return SOS_BOARD_ARM_DSP_API_Q7;
-		case ARM_DSP_Q15_API_REQUEST: return SOS_BOARD_ARM_DSP_API_Q15;
-		case ARM_DSP_Q31_API_REQUEST: return SOS_BOARD_ARM_DSP_API_Q31;
-		case ARM_DSP_F32_API_REQUEST: return SOS_BOARD_ARM_DSP_API_F32;
-		case ARM_DSP_CONVERSION_API_REQUEST: return SOS_BOARD_ARM_DSP_CONVERSION_API;
 		case JANSSON_API_REQUEST: return &jansson_api;
 		case SGFX_API_REQUEST: return &sg_api;
 	}
