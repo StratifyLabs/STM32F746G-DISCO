@@ -31,9 +31,9 @@ int display_device_ioctl(const devfs_handle_t * handle, int request, void * ctl)
 		case I_DISPLAY_GETINFO: return display_device_getinfo(handle, ctl);
 		case I_DISPLAY_CLEAR: return display_device_clear(handle, ctl);
 		case I_DISPLAY_REFRESH: return display_device_refresh(handle, ctl);
-		case I_DISPLAY_INIT: return display_device_init(handle, ctl);
-		case I_DISPLAY_ENABLE: return display_device_enable(handle, ctl);
-		case I_DISPLAY_DISABLE: return display_device_disable(handle, ctl);
+		//case I_DISPLAY_INIT: return display_device_init(handle, ctl);
+		//case I_DISPLAY_ENABLE: return display_device_enable(handle, ctl);
+		//case I_DISPLAY_DISABLE: return display_device_disable(handle, ctl);
 		case I_DISPLAY_ISBUSY: return display_device_isbusy(handle, ctl);
 		case I_DISPLAY_GETPALETTE: return SYSFS_SET_RETURN(EINVAL);
 	}
@@ -54,9 +54,9 @@ int display_device_getinfo(const devfs_handle_t * handle, void * ctl){
 	display_info_t * info = ctl;
 	info->width = DISPLAY_WIDTH;
 	info->height = DISPLAY_HEIGHT;
-	info->mem = (void*)DISPLAY_MEMORY;
-	info->scratch_mem = (void*)DISPLAY_SCRATCH;
-	info->size = DISPLAY_MEMORY_SIZE;
+	//info->mem = (void*)DISPLAY_MEMORY;
+	//info->scratch_mem = (void*)DISPLAY_SCRATCH;
+	//info->size = DISPLAY_MEMORY_SIZE;
 	info->cols = DISPLAY_WIDTH;
 	info->rows = DISPLAY_HEIGHT;
 	info->freq = 30;

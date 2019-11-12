@@ -9,6 +9,7 @@
 #define SL_CONFIG_VERSION_STRING "0.1"
 #define SL_CONFIG_VERSION_BCD 0x01
 #define SL_CONFIG_DOCUMENT_ID "EMfys6dBgsSa4eqDEpJs"
+#define SL_CONFIG_TEAM_ID ""
 #define SL_CONFIG_NAME "STM32F746G-DISCO"
 #define SL_CONFIG_TYPE "os"
 #define SL_CONFIG_PUBLISHER "Stratify Labs, Inc"
